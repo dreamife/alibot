@@ -15,6 +15,14 @@ class HistoryService
 {
     private $babyTrackerRequest;
 
+    const TRACKER_TYPE_MAP = [
+        "diapering" => [
+            "name" => "换尿布",
+            "time_gap" => 150,
+            "hint" => "下次要早点换哦"
+            ],
+    ];
+
     public function __construct(BabyTrackerRequest $request)
     {
         $this->babyTrackerRequest = $request;
@@ -82,7 +90,21 @@ class HistoryService
      */
 
     public function latest($type) {
-        $latest = $this->babyTrackerRequest->latest();
+        $latest = $this->babyTrackerRequest->latest()[$type] ?? [];
+        $trackerConfig = static::TRACKER_TYPE_MAP[$type];
+        if(empty($latest)) {
+            return sprintf("今天还没有%s呢", $trackerConfig['name']);
+        }
+        $return = "上次%s已经过去%s%s了";
+        $timeDiff = floor((time() - strtotime($latest['recorded_at'])) / 60);
+        $data = [$trackerConfig['name'],
+            $timeDiff >= 60 ? ((ceil($timeDiff/60))."小时") : "",
+            $timeDiff%60 ? (($timeDiff%60)."分"):""
+        ];
+        if($timeDiff > $trackerConfig['time_gap'] && !empty($trackerConfig['hint'])) {
+            $return .= ", ".$trackerConfig['hint'];
+        }
+        return sprintf($return, ...$data);
     }
 
 

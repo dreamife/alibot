@@ -27,6 +27,10 @@ class BabyTrackerRequest extends BaseRequest
             "GET");
     }
 
+    public function sleepTimings() {
+        return $this->httpRequest("sleep_timings", "GET");
+    }
+
     protected function parseResponse(\Psr\Http\Message\ResponseInterface $response)
     {
         $response =  parent::parseResponse($response);

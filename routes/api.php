@@ -18,4 +18,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::any("aligenie", [\App\Http\Controllers\Controller::class, "aliGenie"]);
+Route::any("alibot", [\App\Http\Controllers\Controller::class, "aliGenie"]);
