@@ -98,7 +98,7 @@ class HistoryService
         $return = "上次%s已经过去%s%s了";
         $timeDiff = floor((time() - strtotime($latest['recorded_at'])) / 60);
         $data = [$trackerConfig['name'],
-            $timeDiff >= 60 ? ((ceil($timeDiff/60))."小时") : "",
+            $timeDiff >= 60 ? ((floor($timeDiff/60))."小时") : "",
             $timeDiff%60 ? (($timeDiff%60)."分"):""
         ];
         if($timeDiff > $trackerConfig['time_gap'] && !empty($trackerConfig['hint'])) {
