@@ -9,22 +9,42 @@
 namespace App\AliBot;
 
 
+use App\BabyTracker\DiaperService;
 use App\BabyTracker\HistoryService;
 use App\BabyTracker\SleepService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 class AliBotService
 {
+    protected $entities;
+
+    public function __construct(Request $request)
+    {
+        $this->entities = $request->get("slotEntities", []);
+    }
 
     const INTENT_MAP =[
         'last_diaper_change' => [HistoryService::class, "latest", ["diapering"]],
-        'sleep_start' => [SleepService::class, "sleepStats", [SleepService::START]],
+        'sleep_time' => [SleepService::class, "sleepStats", [SleepService::START]],
+        'diaper_change' => [DiaperService::class, "change", []],
+        'sleep_start' => [SleepService::class, "sleepOp", [SleepService::START]],
+        'sleep_end' => [SleepService::class, "sleepOp", [SleepService::END]],
     ];
 
     public function result(Request $request) {
 
         $intent = $request->get('intentName');
         $processConfig = static::INTENT_MAP[$intent];
-        $reply = app($processConfig[0])->{$processConfig[1]}(...$processConfig[2]);
+        try {
+            $service = app($processConfig[0]);
+            $reply = $service->{$processConfig[1]}(...$processConfig[2]);
+            $askedInfo = $service->getAskedInfo();
+        } catch (\Throwable $exception) {
+            Log::error("Failed when processing $intent ".$exception->getMessage().$exception->getFile().$exception->getLine());
+            $reply = "出了点问题，赶紧让粑粑去修啊";
+        }
+
         return [
             "returnCode" => 0,
             "returnValue" => [

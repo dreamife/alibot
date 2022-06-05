@@ -11,7 +11,7 @@ namespace App\BabyTracker;
 
 use App\Lib\BabyTrackerRequest;
 
-class HistoryService
+class HistoryService extends BabyTrackerBase
 {
     private $babyTrackerRequest;
 
@@ -23,10 +23,6 @@ class HistoryService
             ],
     ];
 
-    public function __construct(BabyTrackerRequest $request)
-    {
-        $this->babyTrackerRequest = $request;
-    }
 
     /**
      * https://wx.babytracker.cn/miniapp_api/v1/statistics/lastest?baby_id=&auth_token=
