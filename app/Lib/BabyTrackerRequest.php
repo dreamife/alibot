@@ -8,6 +8,7 @@
 
 namespace App\Lib;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class BabyTrackerRequest extends BaseRequest
@@ -28,9 +29,10 @@ class BabyTrackerRequest extends BaseRequest
             $params["baby_id"] = getenv('BABY_ID');
         }
         $headers['Authorization'] = getenv("BABY_TRACKER_TOKEN");
-        $res = parent::httpRequest($url, $requestMethod, $params, $type, $headers, $retried);
-        return $res;
-
+        return Cache::remember("babyTrackerRequest#".md5($url), 60,
+            function () use($url, $requestMethod, $params, $type, $headers, $retried){
+            parent::httpRequest($url, $requestMethod, $params, $type, $headers, $retried);
+        });
     }
 
     public function latest() {

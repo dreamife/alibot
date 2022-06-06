@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AliBot\AliBotService;
+use App\Lib\LocalPCForwarder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -23,6 +24,11 @@ class Controller extends BaseController
 
     public function aliGenie(Request $request) {
         Log::info(json_encode($request->all(), JSON_UNESCAPED_UNICODE));
-        return new JsonResponse($this->alibotService->result($request));
+        $response = [];
+        if(getenv('APP_ENV') !== 'local') {
+            $response = LocalPCForwarder::getInstance()->forward($request);
+        }
+        return  $response ?:
+            new JsonResponse($this->alibotService->result($request));
     }
 }

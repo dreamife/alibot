@@ -12,6 +12,7 @@ namespace App\AliBot;
 use App\BabyTracker\DiaperService;
 use App\BabyTracker\HistoryService;
 use App\BabyTracker\SleepService;
+use App\Lib\BaseRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -53,10 +54,6 @@ class AliBotService
                 "executeCode" => "SUCCESS"
             ]
         ];
-    }
-
-    private function callService() {
-
     }
 
 
