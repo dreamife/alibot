@@ -27,7 +27,7 @@ class AliBotService
     }
 
     const INTENT_MAP =[
-        'last_diaper_change' => [HistoryService::class, "latest", ["diapering"]],
+        'last_activity' => [HistoryService::class, "latest", ["^tracker_type"]],
         'sleep_time' => [SleepService::class, "sleepStats", [SleepService::START]],
         'diaper_change' => [DiaperService::class, "change", []],
         'sleep_start' => [SleepService::class, "sleepOp", [SleepService::START]],
