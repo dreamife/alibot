@@ -25,7 +25,7 @@ class BabyTrackerRequest extends BaseRequest
                 getenv("BABY_TRACKER_TOKEN")."&baby_id=".getenv("BABY_ID");
         } elseif ($type == 'json') {
             $params['auth_token'] = getenv("BABY_TRACKER_TOKEN");
-            $params['remark'] = "add by ali genie";
+            $params['remark'] = ($params['remark'] ?? "")." add by ali genie";
             $params["baby_id"] = getenv('BABY_ID');
         }
         $headers['Authorization'] = getenv("BABY_TRACKER_TOKEN");
@@ -70,6 +70,14 @@ class BabyTrackerRequest extends BaseRequest
         return $this->httpRequest("sleepings", "POST", [
             "start_at" => $start,
             "end_at" => $end,
+        ]);
+    }
+
+    public function setGrowth($type, $value, $remark = "") {
+        return $this->httpRequest("growths", "POST", [
+            "recorded_at" => date("Y-m-d H:i:s"),
+            $type => $value,
+            "remark" => $remark,
         ]);
     }
 
