@@ -42,7 +42,7 @@ class BaseRequest
             ++$retried;
             Log::error( static::class." fail, $retried times, url $url, params ".json_encode($params)
                 ." message ".$exception->getMessage());
-            if($retried >= self::MAX_RETRY) {
+            if($retried >= static::MAX_RETRY) {
                 Log::error(static::class.__FILE__.__LINE__.$exception->getMessage());
                 return null;
             } else {
@@ -50,7 +50,7 @@ class BaseRequest
                 return $this->httpRequest($url, $requestMethod, $params, $type, $headers, $retried);
             }
         } catch (\Throwable $exception) {
-            Log::error(static::class, $exception->getFile(), $exception->getLine(), $exception->getMessage());
+            Log::error(static::class.$exception->getFile().$exception->getLine().$exception->getMessage());
         }
     }
 
