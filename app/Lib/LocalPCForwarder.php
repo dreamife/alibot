@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Log;
 class LocalPCForwarder extends BaseRequest
 {
     const TIMEOUT = 3;
+    const MAX_RETRY = 0;
     const BASE_URL_KEY = 'LOCAL_PC_ENDPOINT';
 
 
