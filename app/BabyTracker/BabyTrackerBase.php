@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 
 class BabyTrackerBase
 {
+    protected $babyTrackerRequest;
+
     public function __construct(BabyTrackerRequest $request)
     {
         $this->babyTrackerRequest = $request;

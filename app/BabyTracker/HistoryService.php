@@ -13,7 +13,6 @@ use App\Lib\BabyTrackerRequest;
 
 class HistoryService extends BabyTrackerBase
 {
-    private $babyTrackerRequest;
 
     const TRACKER_TYPE_MAP = [
         "diapering" => [
