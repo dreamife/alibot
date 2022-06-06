@@ -43,7 +43,7 @@ class BaseRequest
             Log::error( static::class." fail, $retried times, url $url, params ".json_encode($params)
                 ." message ".$exception->getMessage());
             if($retried >= self::MAX_RETRY) {
-                Log::error(static::class.__FILE__, __LINE__, $exception->getMessage());
+                Log::error(static::class.__FILE__.__LINE__.$exception->getMessage());
                 return null;
             } else {
                 usleep(500000);
