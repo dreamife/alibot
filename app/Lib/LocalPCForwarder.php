@@ -34,6 +34,7 @@ class LocalPCForwarder extends BaseRequest
         } catch (\Exception $exception) {
             Log::error("Forward fail because exception ". $exception->getMessage());
         }
+        Log::info("Got result from local");
         return $res;
     }
 

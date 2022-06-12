@@ -29,7 +29,7 @@ class BabyTrackerRequest extends BaseRequest
             $params["baby_id"] = getenv('BABY_ID');
         }
         $headers['Authorization'] = getenv("BABY_TRACKER_TOKEN");
-        return Cache::remember("babyTrackerRequest#".md5($url), 60,
+        return Cache::remember("babyTrackerRequest#".md5($url), 300,
             function () use($url, $requestMethod, $params, $type, $headers, $retried){
             return parent::httpRequest($url, $requestMethod, $params, $type, $headers, $retried);
         });
