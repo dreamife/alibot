@@ -10,6 +10,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class Controller extends BaseController
@@ -25,7 +26,7 @@ class Controller extends BaseController
     public function aliGenie(Request $request) {
         Log::info(json_encode($request->all(), JSON_UNESCAPED_UNICODE));
         $response = [];
-        if(getenv('APP_ENV') !== 'local') {
+        if(getenv('APP_ENV') !== 'local' && Cache::get('localServerLive')) {
             $response = LocalPCForwarder::getInstance()->forward($request);
         }
         return  $response ?:

@@ -19,3 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::any("alibot", [\App\Http\Controllers\Controller::class, "aliGenie"]);
+
+Route::get("test", function() {
+    return new \Illuminate\Http\JsonResponse(["msg" => "ok"]);
+});
