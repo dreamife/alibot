@@ -29,7 +29,7 @@ class AliBotService
     const INTENT_MAP =[
         'last_activity' => [HistoryService::class, "latest", ["^tracker_type"]],
         'sleep_time' => [SleepService::class, "sleepStats", [SleepService::START]],
-        'diaper_change' => [DiaperService::class, "change", []],
+        'diaper_change' => [DiaperService::class, "change", ["^diaper_content"]],
         'sleep_start' => [SleepService::class, "sleepOp", [SleepService::START]],
         'sleep_end' => [SleepService::class, "sleepOp", [SleepService::END]],
         'add_weight' => [GrowthService::class, "setWeight", ["^sys.weight", "^weight_type"]]

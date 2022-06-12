@@ -15,10 +15,14 @@ class DiaperService extends BabyTrackerBase
 {
 
     CONST DIAPER_PEE = 1;
-    CONST DIAPER_POO = 2;
+    CONST DIAPER_POO = 0;
+    CONST DIAPER_PEE_AND_POO = 2;
 
-    public function change() {
-        $result = $this->babyTrackerRequest->changeDiaper(static::DIAPER_PEE);
+
+    public function change($diaperContent = null) {
+        $diaperType = self::DIAPER_PEE;
+        $diaperContent == "粑粑" && $diaperType = self::DIAPER_POO;
+        $result = $this->babyTrackerRequest->changeDiaper($diaperType);
         if($result && !empty($result['id'])) {
             return "好啦";
         } else if($msg = $this->babyTrackerRequest->getErrorMsg()){
