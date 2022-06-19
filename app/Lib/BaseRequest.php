@@ -18,6 +18,7 @@ class BaseRequest
     static $instance;
     private $client;
     protected $wantsRawOutPut = false;
+    protected $noErrorLog = false;
 
     public function __construct() {
 
@@ -40,10 +41,10 @@ class BaseRequest
             return $this->parseResponse($response);
         } catch (GuzzleException $exception) {
             ++$retried;
-            Log::error( static::class." fail, $retried times, url $url, params ".json_encode($params)
+            !$this->noErrorLog && Log::error( static::class." fail, $retried times, url $url, params ".json_encode($params)
                 ." message ".$exception->getMessage());
             if($retried >= static::MAX_RETRY) {
-                Log::error(static::class.__FILE__.__LINE__.$exception->getMessage());
+                !$this->noErrorLog && Log::error(static::class.__FILE__.__LINE__.$exception->getMessage());
                 return null;
             } else {
                 usleep(500000);

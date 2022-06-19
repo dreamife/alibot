@@ -39,6 +39,7 @@ class LocalPCForwarder extends BaseRequest
     }
 
     public function test() {
+        $this->noErrorLog = true;
         return $this->httpRequest("api/test", "GET");
     }
 
