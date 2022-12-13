@@ -14,6 +14,7 @@ use App\BabyTracker\GrowthService;
 use App\BabyTracker\HistoryService;
 use App\BabyTracker\SleepService;
 use App\Lib\BaseRequest;
+use App\SmartDevice\SmartDeviceBase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -32,7 +33,8 @@ class AliBotService
         'diaper_change' => [DiaperService::class, "change", ["^diaper_content"]],
         'sleep_start' => [SleepService::class, "sleepOp", [SleepService::START]],
         'sleep_end' => [SleepService::class, "sleepOp", [SleepService::END]],
-        'add_weight' => [GrowthService::class, "setWeight", ["^sys.weight", "^weight_type"]]
+        'add_weight' => [GrowthService::class, "setWeight", ["^sys.weight", "^weight_type"]],
+        'device_status' => [SmartDeviceBase::class, "deviceStatus", ["^device", "^device_status"]],
     ];
 
     public function result(Request $request) {
