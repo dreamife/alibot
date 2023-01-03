@@ -20,6 +20,6 @@ class SmartDeviceBase
     }
 
     public function deviceStatus($device, $status) {
-        Storage::put("device_status", date("Y-m-d H:i:s").", $device, $status\n");
+        Storage::put("device_status", date("Y-m-d H:i:s").",$device,$status\n", FILE_APPEND);
     }
 }
